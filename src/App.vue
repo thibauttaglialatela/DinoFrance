@@ -1,11 +1,10 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div class="min-h-screen bg-provence-sand p-8 text-center">
+    <h1 class="font-cinzel text-4xl text-provence-clay font-bold mb-4">
+      Test Tailwind v4
+    </h1>
+    <p class="bg-provence-ochre text-provence-dark p-4 rounded-lg inline-block font-sans font-semibold">
+      Si ce rectangle est ocre avec du texte sombre, Tailwind fonctionne !
+    </p>
+  </div>
 </template>
-
-<style scoped></style>
