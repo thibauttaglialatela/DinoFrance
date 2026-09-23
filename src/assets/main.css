@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Polices de caractères */
+  --font-cinzel: 'Cinzel', serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+
+  /* Palette « Argiles de Provence » */
+  --color-provence-clay: #8b3a2b;
+  --color-provence-ochre: #e0a96d;
+  --color-provence-sand: #fbf9f5;
+  --color-provence-card: #f2ece1;
+  --color-provence-dark: #2b221e;
+  --color-provence-muted: #6e625a;
+  --color-provence-fossil: #5b7065;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-provence-sand);
+    color: var(--color-provence-dark);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-cinzel);
+  }
+}
