@@ -1,0 +1,29 @@
+// Variables SCSS - Palette "Argiles de Provence"
+$font-cinzel: 'Cinzel', serif;
+$font-sans: 'Plus Jakarta Sans', sans-serif;
+
+$provence-clay: #8b3a2b;
+$provence-ochre: #e0a96d;
+$provence-sand: #fbf9f5;
+$provence-card: #f2ece1;
+$provence-dark: #2b221e;
+$provence-muted: #6e625a;
+$provence-fossil: #5b7065;
+
+// Styles globaux
+*, *::before, *::after {
+  box-sizing: border-border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $font-sans;
+  background-color: $provence-sand;
+  color: $provence-dark;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4 {
+  font-family: $font-cinzel;
+}
