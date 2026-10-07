@@ -1,18 +1,21 @@
-// Variables SCSS - Palette "Argiles de Provence"
-$font-cinzel: 'Cinzel', serif;
-$font-sans: 'Plus Jakarta Sans', sans-serif;
+// 2. Couleurs "Argiles de Provence" appliquées au burger
+.hamburger-inner,
+.hamburger-inner::before,
+.hamburger-inner::after {
+  background-color: $provence-clay;
+}
 
-$provence-clay: #8b3a2b;
-$provence-ochre: #e0a96d;
-$provence-sand: #fbf9f5;
-$provence-card: #f2ece1;
-$provence-dark: #2b221e;
-$provence-muted: #6e625a;
-$provence-fossil: #5b7065;
+.hamburger.is-active .hamburger-inner,
+.hamburger.is-active .hamburger-inner::before,
+.hamburger.is-active .hamburger-inner::after {
+  background-color: $provence-ochre;
+}
 
-// Styles globaux
-*, *::before, *::after {
-  box-sizing: border-border-box;
+// 3. Styles globaux
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
@@ -24,6 +27,9 @@ body {
   line-height: 1.5;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: $font-cinzel;
 }
