@@ -5,20 +5,23 @@ import AppFooter from './components/AppFooter.vue';
 </script>
 
 <template>
-  <div>
+  <section class="main-page">
     <AppHeader />
+
     <main>
       <RouterView />
     </main>
+
     <AppFooter />
 
-  </div>
+  </section>
 </template>
 
 <style lang="scss" scoped>
 main {
   display: flex;
   flex-direction: column;
+  flex: 1 0 auto;
   background-color: $provence-sand;
   margin-left: 16px;
   margin-right: 16px;
@@ -27,6 +30,11 @@ main {
     margin-left: 80px;
     margin-right: 80px;
   }
-
 }
+
+  .main-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
 </style>
