@@ -76,6 +76,15 @@ defineEmits(['click'])
         }
     }
 
+    &.btn-fossil {
+        background-color: $provence-fossil;
+        border-color: $provence-fossil;
+
+        span {
+            color: $provence-white;
+        }
+    }
+
     &.active {
         background-color: $provence-fossil;
         border-color: $provence-fossil;
