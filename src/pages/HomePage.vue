@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import ButtonPill from '@/components/ButtonPill.vue'
+import DinoCard from '@/components/DinoCard.vue';
 
 const periods = ['Trias', 'Jurassique', 'Crétacé']
 const selectedPeriod = ref('Trias')
@@ -24,6 +25,16 @@ const selectedPeriod = ref('Trias')
             <ButtonPill v-for="period in periods" :key="period" :title="period" variant="sand"
                 :is-active="selectedPeriod === period" @click="selectedPeriod = period" />
         </nav>
+    </section>
+
+    <section class="dino-card-grid">
+        <DinoCard />
+        <DinoCard />
+        <DinoCard />
+        <DinoCard />
+        <DinoCard />
+        <DinoCard />
+        <DinoCard />
     </section>
 </template>
 
@@ -87,7 +98,7 @@ const selectedPeriod = ref('Trias')
 
 .hero-section-sort {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
     gap: 1rem;
     margin-top: 1.5rem;
@@ -95,6 +106,22 @@ const selectedPeriod = ref('Trias')
     @media screen and (min-width: 768px) {
         gap: 1.5rem;
         margin-top: 2rem;
+        align-items: center;
+        flex-direction: row;
     }
+}
+
+.dino-card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin: 2.125rem 1rem 2.5rem 1rem;
+
+    @media screen and (min-width: 768px) {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin: 2.5rem 2rem;
+    }
+
 }
 </style>
