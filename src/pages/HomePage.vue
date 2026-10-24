@@ -2,9 +2,11 @@
 import { ref } from 'vue'
 import ButtonPill from '@/components/ButtonPill.vue'
 import DinoCard from '@/components/DinoCard.vue';
+import { mockDinosaurs } from '@/data/mockDinosaurs';
 
 const periods = ['Trias', 'Jurassique', 'Crétacé']
 const selectedPeriod = ref('Trias')
+const dinosaurs = ref(mockDinosaurs)
 </script>
 
 <template>
@@ -28,13 +30,7 @@ const selectedPeriod = ref('Trias')
     </section>
 
     <section class="dino-card-grid">
-        <DinoCard />
-        <DinoCard />
-        <DinoCard />
-        <DinoCard />
-        <DinoCard />
-        <DinoCard />
-        <DinoCard />
+        <DinoCard v-for="dino in dinosaurs" :key="dino.id" :dinosaur="dino"/>
     </section>
 </template>
 
