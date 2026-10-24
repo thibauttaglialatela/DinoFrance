@@ -24,7 +24,7 @@ defineProps({
 
     <section class="card-content">
       <p><strong>Lieu de découverte : </strong>{{ dinosaur.state }}</p>
-      <p><strong>Taille estimée :</strong> 1,8 mètre de long</p>
+      <p><strong>Taille estimée :</strong> {{ dinosaur.size }}</p>
     </section>
 
     <a href="#" class="link-dino-page">Découvrir</a>

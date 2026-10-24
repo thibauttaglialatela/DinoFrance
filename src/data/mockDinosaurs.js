@@ -1,0 +1,38 @@
+export const mockDinosaurs = [
+    {
+        id: 1,
+        name: 'Pyroraptor',
+        scientificName: 'Pyroraptor olympius',
+        period: 'Campanien moyen',
+        state: 'Provence (Bouches-du-Rhône)',
+        size: '2,5 mètres de long',
+        imageUrl: 'https://picsum.photos/id/296/400/300',
+    },
+    {
+        id: 2,
+        name: 'Rhabdodon',
+        scientificName: 'Rhabdodon priscus',
+        period: 'Campanien supérieur',
+        state: 'Provence (Var)',
+        size: '4 à 6 mètres de long',
+        imageUrl: 'https://picsum.photos/id/1040/400/300',
+    },
+    {
+        id: 3,
+        name: 'Ampelosaurus',
+        scientificName: 'Ampelosaurus atacis',
+        period: 'Maastrichtien',
+        state: 'Occitanie (Aude)',
+        size: '15 mètres de long',
+        imageUrl: 'https://picsum.photos/id/1069/400/300',
+    },
+    {
+        id: 4,
+        name: 'Eubrontes',
+        scientificName: 'Eubrontes giganteus',
+        period: 'Rhétien',
+        state: 'Pays de la Loire (Vendée)',
+        size: 'Trace de pas (Dinosaure bipède)',
+        imageUrl: 'https://picsum.photos/id/1057/400/300',
+    },
+]
