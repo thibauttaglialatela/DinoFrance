@@ -1,27 +1,34 @@
 <script setup>
 import ButtonPill from './ButtonPill.vue';
+
+defineProps({
+  dinosaur: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 <template>
-    <article class="dino-card">
-        <div class="card-media">
-            <img src="https://picsum.photos/id/296/400/300" alt="Squelette ou environnement de dinosaure" />
-        </div>
+  <article class="dino-card">
+    <div class="card-media">
+      <img src="https://picsum.photos/id/296/400/300" alt="Squelette ou environnement de dinosaure" />
+    </div>
 
-        <header class="card-title">
-            <h3>Pyroraptor</h3>
-            <p>Pyroraptor olympius</p>
-        </header>
+    <header class="card-title">
+      <h3>{{ dinosaur.name }}</h3>
+      <p>{{ dinosaur.scientificName }}</p>
+    </header>
 
-        <ButtonPill title="Campanien moyen" variant="fossil" />
+    <ButtonPill :title="dinosaur.period" variant="fossil" />
 
-        <section class="card-content">
-            <p><strong>Lieu de découverte :</strong> Provence</p>
-            <p><strong>Taille estimée :</strong> 1,8 mètre de long</p>
-        </section>
+    <section class="card-content">
+      <p><strong>Lieu de découverte : </strong>{{ dinosaur.state }}</p>
+      <p><strong>Taille estimée :</strong> 1,8 mètre de long</p>
+    </section>
 
-        <a href="#" class="link-dino-page">Découvrir</a>
-    </article>
+    <a href="#" class="link-dino-page">Découvrir</a>
+  </article>
 </template>
 
 <style lang="scss" scoped>
@@ -69,7 +76,7 @@ import ButtonPill from './ButtonPill.vue';
   .card-title {
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
     gap: 0.25rem;
 
     h3 {
@@ -94,7 +101,7 @@ import ButtonPill from './ButtonPill.vue';
       line-height: 1.35;
 
       @media screen and (min-width: 768px) {
-        font-size: 0.9rem; 
+        font-size: 0.9rem;
       }
     }
   }
@@ -130,7 +137,7 @@ import ButtonPill from './ButtonPill.vue';
     text-align: center;
     font-weight: 600;
     font-size: 0.9rem;
-    margin-top: auto; 
+    margin-top: auto;
     transition: background-color 0.2s ease;
 
     &:hover {
