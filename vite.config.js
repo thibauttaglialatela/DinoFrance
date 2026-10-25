@@ -20,5 +20,14 @@ export default defineConfig({
         loadPaths: ['node_modules']
       }
     }
+  },
+  server: {
+    proxy: {
+      '/api-pbdb': {
+        target: 'https://paleobiodb.org',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api-pbdb/, '')
+      }
+    }
   }
 })
