@@ -1,12 +1,25 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import ButtonPill from '@/components/ButtonPill.vue'
 import DinoCard from '@/components/DinoCard.vue';
-import { mockDinosaurs } from '@/data/mockDinosaurs';
+import { fetchFrenchDinosaurs } from '@/services/pbdbServices';
 
 const periods = ['Trias', 'Jurassique', 'Crétacé']
 const selectedPeriod = ref('Trias')
-const dinosaurs = ref(mockDinosaurs)
+const dinosaurs = ref([])
+const loading = ref(true)
+const error = ref(null)
+
+onMounted(async () => {
+    try {
+        loading.value = true
+        dinosaurs.value = await fetchFrenchDinosaurs('Cretaceous')
+    } catch (err) {
+        error.value = "Impossible de charger les fossiles"
+    } finally {
+        loading.value = false
+    }
+})
 </script>
 
 <template>
@@ -30,7 +43,10 @@ const dinosaurs = ref(mockDinosaurs)
     </section>
 
     <section class="dino-card-grid">
-        <DinoCard v-for="dino in dinosaurs" :key="dino.id" :dinosaur="dino"/>
+        <p v-if="loading">Chargement de la liste</p>
+        <p v-if="error">Une erreur est survenue</p>
+
+        <DinoCard v-for="dino in dinosaurs" :key="dino.id" :dinosaur="dino" />
     </section>
 </template>
 
