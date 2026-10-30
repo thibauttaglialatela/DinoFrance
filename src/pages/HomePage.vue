@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import ButtonPill from '@/components/ButtonPill.vue'
 import DinoCard from '@/components/DinoCard.vue';
 import { fetchFrenchDinosaurs } from '@/services/pbdbServices';
@@ -9,6 +9,9 @@ const selectedPeriod = ref('Crétacé')
 const dinosaurs = ref([])
 const loading = ref(true)
 const error = ref(null)
+
+const currentPage = ref(1)
+const itemsPerPage = 6
 
 const loadDinosaurs = async (frenchPeriod) => {
     try {
@@ -21,8 +24,9 @@ const loadDinosaurs = async (frenchPeriod) => {
         }
         const englishPeriod = translatedPeriodList[frenchPeriod]
         dinosaurs.value = await fetchFrenchDinosaurs(englishPeriod)
-    } catch (error) {
+    } catch (err) {
         error.value = "Impossible de charger les fossiles"
+        console.error("Une erreur est survenue : ", err.message)
     } finally {
         loading.value = false
     }
@@ -32,9 +36,19 @@ const loadDinosaurs = async (frenchPeriod) => {
 const switchPeriod = (periodName) => {
     selectedPeriod.value = periodName
     console.log("Période active :", selectedPeriod.value)
-
+    currentPage.value = 1
     loadDinosaurs(periodName)
 }
+
+const paginatedDinosaurs = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage
+    const end = start + itemsPerPage
+    return dinosaurs.value.slice(start, end)
+})
+
+const totalPages = computed(() => {
+    return Math.ceil(dinosaurs.value.length / itemsPerPage)
+})
 
 onMounted(() => {
     loadDinosaurs(selectedPeriod.value)
@@ -62,15 +76,22 @@ onMounted(() => {
         </nav>
     </section>
 
+    <p v-if="loading" class="state-message">Chargement de la liste...</p>
+    <p v-if="error" class="state-message error">{{ error }}</p>
     <section class="dino-card-grid">
-        <p v-if="loading">Chargement de la liste</p>
-        <p v-if="error">Une erreur est survenue</p>
-
-        <DinoCard v-for="dino in dinosaurs" :key="dino.id" :dinosaur="dino" />
+        <DinoCard v-for="dino in paginatedDinosaurs" :key="dino.id" :dinosaur="dino" />
     </section>
+
+    <nav class="pagination" v-if="totalPages > 1">
+        <button :disabled="currentPage === 1" @click="currentPage--" class="page-btn">Précédent</button>
+        <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+        <button :disabled="currentPage === totalPages" @click="currentPage++" class="page-btn">Suivant</button>
+    </nav>
 </template>
 
 <style lang="scss" scoped>
+@use "sass:color";
+
 .hero-section {
     padding: 2.75rem 1rem 2.12rem 1rem;
 
@@ -153,6 +174,55 @@ onMounted(() => {
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
         margin: 2.5rem 2rem;
+    }
+
+}
+
+.state-message {
+    text-align: center;
+    font-family: $font-sans;
+    color: $provence-muted;
+    margin: 3rem 0;
+
+    &.error {
+        color: $provence-clay;
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 3rem 0;
+    font-family: $font-sans;
+    color: $provence-dark;
+
+    span {
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .page-btn {
+        background-color: $provence-clay;
+        color: $provence-white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease, opacity 0.2s ease;
+
+        &:hover:not(:disabled) {
+            background-color: color.scale($provence-clay, $lightness: -10%);
+        }
+
+        &:disabled {
+            background-color: $provence-fossil;
+            color: $provence-muted;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
     }
 
 }

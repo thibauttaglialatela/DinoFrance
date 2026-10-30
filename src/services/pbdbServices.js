@@ -1,4 +1,4 @@
-const BASE_URL = '/api-pbdb/data1.2/occs/list.json';
+const BASE_URL = '/api-pbdb/data1.2/occs/taxa.json';
 
 /**
  * Récupère les dinosaures de la PBDB pour la France et les formate pour les cartes.
@@ -6,7 +6,7 @@ const BASE_URL = '/api-pbdb/data1.2/occs/list.json';
  */
 export async function fetchFrenchDinosaurs(period = 'Cretaceous') {
 
-    let url = `${BASE_URL}?base_name=Dinosauria&cc=FR&show=full`;
+    let url = `${BASE_URL}?datainfo&rowcount&base_name=Dinosauria&rank=species&taxon_status=accepted&cc=FR&show=full`;
 
     if (period) {
         url += `&interval=${encodeURIComponent(period)}`;
@@ -24,9 +24,9 @@ export async function fetchFrenchDinosaurs(period = 'Cretaceous') {
 
         return records.map(record => ({
             id: record.oid,
-            name: record.gnl || record.tna || "Spécimen non identifié",
-            scientificName: `${record.tna || ''} ${record.att || ''}`.trim(),
-            period: record.oei || "Âge indéterminé",
+            name: record.nm2 || record.prl || "Spécimen non identifié",
+            scientificName: `${record.nam || ''} ${record.att || ''}`.trim(),
+            period: record.tei || record.tli || "Âge indéterminé",
             state: [record.stp, record.cny].filter(Boolean).join(' - ') || 'France',
             imageUrl: 'https://picsum.photos/id/296/400/300'
         }));
