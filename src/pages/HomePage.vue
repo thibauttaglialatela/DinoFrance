@@ -5,21 +5,41 @@ import DinoCard from '@/components/DinoCard.vue';
 import { fetchFrenchDinosaurs } from '@/services/pbdbServices';
 
 const periods = ['Trias', 'Jurassique', 'Crétacé']
-const selectedPeriod = ref('Trias')
+const selectedPeriod = ref('Crétacé')
 const dinosaurs = ref([])
 const loading = ref(true)
 const error = ref(null)
 
-onMounted(async () => {
+const loadDinosaurs = async (frenchPeriod) => {
     try {
         loading.value = true
-        dinosaurs.value = await fetchFrenchDinosaurs('Cretaceous')
-    } catch (err) {
+        error.value = null
+        const translatedPeriodList = {
+            "Trias": "Triassic",
+            "Jurassique": "Jurassic",
+            "Crétacé": "Cretaceous"
+        }
+        const englishPeriod = translatedPeriodList[frenchPeriod]
+        dinosaurs.value = await fetchFrenchDinosaurs(englishPeriod)
+    } catch (error) {
         error.value = "Impossible de charger les fossiles"
     } finally {
         loading.value = false
     }
+}
+
+
+const switchPeriod = (periodName) => {
+    selectedPeriod.value = periodName
+    console.log("Période active :", selectedPeriod.value)
+
+    loadDinosaurs(periodName)
+}
+
+onMounted(() => {
+    loadDinosaurs(selectedPeriod.value)
 })
+
 </script>
 
 <template>
@@ -38,7 +58,7 @@ onMounted(async () => {
 
         <nav class="hero-section-sort" aria-label="Filtrer par période géologique">
             <ButtonPill v-for="period in periods" :key="period" :title="period" variant="sand"
-                :is-active="selectedPeriod === period" @click="selectedPeriod = period" />
+                :is-active="selectedPeriod === period" @click="switchPeriod(period)" />
         </nav>
     </section>
 
