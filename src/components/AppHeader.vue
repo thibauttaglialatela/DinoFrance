@@ -31,7 +31,12 @@ const isMenuOpen = ref(false)
     padding: 1rem 1.5rem;
     background-color: $provence-white;
     border-bottom: 2px solid rgba($provence-ochre, 0.3);
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    box-sizing: border-box;
 
     .logo {
         font-size: 1.5rem;

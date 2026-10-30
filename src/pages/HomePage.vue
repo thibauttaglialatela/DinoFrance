@@ -92,14 +92,6 @@ onMounted(() => {
 <style lang="scss" scoped>
 @use "sass:color";
 
-.hero-section {
-    padding: 2.75rem 1rem 2.12rem 1rem;
-
-    @media screen and (min-width: 768px) {
-        padding: 3.5rem 2rem;
-    }
-}
-
 .hero-header {
     max-width: 60ch;
     margin: 0 auto 1.5rem auto;

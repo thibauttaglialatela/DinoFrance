@@ -8,7 +8,7 @@ import AppFooter from './components/AppFooter.vue';
   <section class="main-page">
     <AppHeader />
 
-    <main>
+    <main class="hero-section">
       <RouterView />
     </main>
 
@@ -32,9 +32,17 @@ main {
   }
 }
 
-  .main-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
+.main-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.hero-section {
+  padding: 5.5rem 1rem 2.12rem 1rem;
+
+  @media screen and (min-width: 768px) {
+    padding: 6rem 2rem 3.5rem 2rem; // Un peu plus d'espace sur desktop
   }
+}
 </style>
