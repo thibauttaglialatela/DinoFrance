@@ -28,7 +28,8 @@ export async function fetchFrenchDinosaurs(period = 'Cretaceous') {
             scientificName: `${record.nam || ''} ${record.att || ''}`.trim(),
             period: record.tei || record.tli || "Âge indéterminé",
             state: [record.stp, record.cny].filter(Boolean).join(' - ') || 'France',
-            imageUrl: 'https://picsum.photos/id/296/400/300'
+            imageUrl: 'https://picsum.photos/id/296/400/300',
+            diet: record.jdt
         }));
 
     } catch (error) {
