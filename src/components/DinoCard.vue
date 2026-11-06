@@ -27,7 +27,7 @@ defineProps({
       <p><strong>Régime alimentaire : </strong>{{ dinosaur.diet }}</p>
     </section>
 
-    <a href="#" class="link-dino-page">Découvrir</a>
+    <RouterLink :to="`/dinosaur-info/${dinosaur.id}`" class="link-dino-page">Découvrir</RouterLink>
   </article>
 </template>
 
