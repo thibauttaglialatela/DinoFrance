@@ -86,3 +86,41 @@ export async function fetchFrenchDinosaurs(period = 'Cretaceous') {
         throw error
     }
 }
+
+/**
+ * Récupére un dinosaure de la PBDB et le formate pour afficher les infos correspondantes
+ * ?datainfo&rowcount&base_name=Dinosauria&spec_id=spm:55865&pgm=gplates&show=full
+ */
+export async function fetchOneDinosaur(dinoId) {
+    let url = `${BASE_URL}?datainfo&rowcount&base_name=Dinosauria&pgm=gplates&show=full`
+
+    if (dinoId) {
+        url += `&spec_id=${dinoId}`
+    }
+
+    try {
+        const response = await fetch(url)
+
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP : ${response.status}`);
+        }
+
+        const data = await response.json()
+
+        const arrayData = data.records
+
+        let dinoMap = {}
+
+        dinoMap = {
+            'id': arrayData[0].oid,
+            'name': arrayData[0].tna,
+            'scientificName': arrayData[0].idn
+        }
+
+        return dinoMap
+
+    } catch (error) {
+        console.error('Echec lors de la récupération des données PBDB : ', error)
+        throw error        
+    }
+}
