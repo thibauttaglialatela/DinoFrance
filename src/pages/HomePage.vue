@@ -1,8 +1,8 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import ButtonPill from '@/components/ButtonPill.vue'
-import DinoCard from '@/components/DinoCard.vue';
-import { fetchFrenchDinosaurs } from '@/services/pbdbServices';
+import DinoCard from '@/components/DinoCard.vue'
+import { fetchFrenchDinosaurs } from '@/services/pbdbServices'
 
 const periods = ['Trias', 'Jurassique', 'Crétacé']
 const selectedPeriod = ref('Crétacé')
@@ -18,24 +18,23 @@ const loadDinosaurs = async (frenchPeriod) => {
         loading.value = true
         error.value = null
         const translatedPeriodList = {
-            "Trias": "Triassic",
-            "Jurassique": "Jurassic",
-            "Crétacé": "Cretaceous"
+            Trias: 'Triassic',
+            Jurassique: 'Jurassic',
+            Crétacé: 'Cretaceous',
         }
         const englishPeriod = translatedPeriodList[frenchPeriod]
         dinosaurs.value = await fetchFrenchDinosaurs(englishPeriod)
     } catch (err) {
-        error.value = "Impossible de charger les fossiles"
-        console.error("Une erreur est survenue : ", err.message)
+        error.value = 'Impossible de charger les fossiles'
+        console.error('Une erreur est survenue : ', err.message)
     } finally {
         loading.value = false
     }
 }
 
-
 const switchPeriod = (periodName) => {
     selectedPeriod.value = periodName
-    console.log("Période active :", selectedPeriod.value)
+    console.log('Période active :', selectedPeriod.value)
     currentPage.value = 1
     loadDinosaurs(periodName)
 }
@@ -53,7 +52,6 @@ const totalPages = computed(() => {
 onMounted(() => {
     loadDinosaurs(selectedPeriod.value)
 })
-
 </script>
 
 <template>
@@ -75,6 +73,13 @@ onMounted(() => {
                 :is-active="selectedPeriod === period" @click="switchPeriod(period)" />
         </nav>
     </section>
+    <nav class="pagination" v-if="totalPages > 1">
+        <button :disabled="currentPage === 1" @click="currentPage--" class="page-btn">Précédent</button>
+        <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+        <button :disabled="currentPage === totalPages" @click="currentPage++" class="page-btn">
+            Suivant
+        </button>
+    </nav>
 
     <p v-if="loading" class="state-message">Chargement de la liste...</p>
     <p v-if="error" class="state-message error">{{ error }}</p>
@@ -85,12 +90,14 @@ onMounted(() => {
     <nav class="pagination" v-if="totalPages > 1">
         <button :disabled="currentPage === 1" @click="currentPage--" class="page-btn">Précédent</button>
         <span>Page {{ currentPage }} sur {{ totalPages }}</span>
-        <button :disabled="currentPage === totalPages" @click="currentPage++" class="page-btn">Suivant</button>
+        <button :disabled="currentPage === totalPages" @click="currentPage++" class="page-btn">
+            Suivant
+        </button>
     </nav>
 </template>
 
 <style lang="scss" scoped>
-@use "sass:color";
+@use 'sass:color';
 
 .hero-header {
     max-width: 60ch;
@@ -167,7 +174,6 @@ onMounted(() => {
         gap: 2rem;
         margin: 2.5rem 2rem;
     }
-
 }
 
 .state-message {
@@ -185,25 +191,40 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.5rem;
-    margin: 3rem 0;
+    gap: 0.75rem;
+    margin: 2rem 1rem;
     font-family: $font-sans;
     color: $provence-dark;
 
+    @media screen and (min-width: 768px) {
+        gap: 1.5rem;
+        margin: 3rem 0;
+    }
+
     span {
         font-weight: 600;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        text-align: center;
+        white-space: nowrap;
     }
 
     .page-btn {
         background-color: $provence-clay;
         color: $provence-white;
         border: none;
-        padding: 0.6rem 1.2rem;
+        padding: 0.5rem 1rem;
         border-radius: 0.5rem;
         font-weight: 600;
+        font-size: 0.9rem;
         cursor: pointer;
-        transition: background-color 0.2s ease, opacity 0.2s ease;
+        transition:
+            background-color 0.2s ease,
+            opacity 0.2s ease;
+
+        @media screen and (min-width: 768px) {
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
+        }
 
         &:hover:not(:disabled) {
             background-color: color.scale($provence-clay, $lightness: -10%);
@@ -216,6 +237,5 @@ onMounted(() => {
             opacity: 0.7;
         }
     }
-
 }
 </style>

@@ -23,8 +23,7 @@ defineProps({
     <ButtonPill :title="dinosaur.period" variant="fossil" />
 
     <section class="card-content">
-      <p><strong>Lieu de découverte : </strong>{{ dinosaur.state }}</p>
-      <p><strong>Taille estimée : </strong> {{ dinosaur.size }}</p>
+      <p><strong>Lieu de vie : </strong>{{ dinosaur.habitat }}</p>
       <p><strong>Régime alimentaire : </strong>{{ dinosaur.diet }}</p>
     </section>
 
@@ -88,6 +87,7 @@ defineProps({
       text-transform: uppercase;
       overflow-wrap: break-word;
       hyphens: auto;
+      text-align: center;
 
       @media screen and (min-width: 768px) {
         font-size: 1.25rem;
