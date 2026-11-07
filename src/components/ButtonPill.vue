@@ -40,13 +40,9 @@ defineEmits(['click'])
     user-select: none;
 
     span {
-        font-size: 0.4rem;
+        font-size: 0.85rem;
         font-weight: 600;
         line-height: 1;
-
-        @media screen and (min-width: 768px) {
-            font-size: 0.85rem;
-        }
     }
 
     &:focus-visible {
