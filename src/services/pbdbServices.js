@@ -38,7 +38,7 @@ function formatGeologicalAge(minAge, maxAge) {
     const roundedMin = Math.round(min)
     const roundedMax = Math.round(max)
 
-    return `${epochLabel} (de ${roundedMax} à ${roundedMin} Ma)`
+    return `${epochLabel}`
 }
 
 /**
@@ -83,6 +83,56 @@ export async function fetchFrenchDinosaurs(period = 'Cretaceous') {
         return Array.from(uniqueDinosMap.values())
     } catch (error) {
         console.error('Échec de la récupération des données PBDB :', error)
+        throw error
+    }
+}
+
+/**
+ * Récupére un dinosaure de la PBDB et le formate pour afficher les infos correspondantes
+ * ?datainfo&rowcount&base_name=Dinosauria&spec_id=spm:55865&pgm=gplates&show=full
+ */
+export async function fetchOneDinosaur(dinoId) {
+    let url = `${BASE_URL}?datainfo&rowcount&base_name=Dinosauria&pgm=gplates&show=full`
+
+    if (dinoId) {
+        url += `&spec_id=${dinoId}`
+    }
+
+    try {
+        const response = await fetch(url)
+
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP : ${response.status}`)
+        }
+
+        const data = await response.json()
+
+        const arrayData = data.records
+
+        let dinoMap = {}
+
+        dinoMap = {
+            id: arrayData[0].oid,
+            name: arrayData[0].tna,
+            scientificName: arrayData[0].idn,
+            period: formatGeologicalAge(arrayData[0].eag, arrayData[0].lag),
+            diet: arrayData[0].jdt,
+            lifeHabit: arrayData[0].jlh || '',
+            imageUrl: 'https://picsum.photos/id/296/400/300',
+            taxonEnv: arrayData[0].jev || '',
+            motility: arrayData[0].jmo || '',
+            lifeHabit: arrayData[0].jlh || '',
+            reproduction: arrayData[0].jre || '',
+            phylum: arrayData[0].phl || '',
+            class: arrayData[0].cll,
+            order: arrayData[0].odl,
+            family: arrayData[0].fml,
+            genus: arrayData[0].gnl,
+        }
+
+        return dinoMap
+    } catch (error) {
+        console.error('Echec lors de la récupération des données PBDB : ', error)
         throw error
     }
 }
