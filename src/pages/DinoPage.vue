@@ -1,6 +1,7 @@
 <script setup>
 import ButtonPill from '@/components/ButtonPill.vue';
 import { fetchOneDinosaur } from '@/services/pbdbServices';
+import { fetchOneDinosaurPicture } from '@/services/wikipediaService';
 import { onMounted, ref } from 'vue';
 
 const props = defineProps({
@@ -12,6 +13,11 @@ const props = defineProps({
 const dinosaur = ref(null)
 const loading = ref(true)
 const error = ref(null)
+
+const dinoPicture = ref(null)
+const loadingPicture = ref(true)
+const errorPicture = ref(null)
+
 
 onMounted(async () => {
     try {
@@ -27,6 +33,23 @@ onMounted(async () => {
         console.error(err.message)
     } finally {
         loading.value = false
+    }
+
+    try {
+        loadingPicture.value = true
+        errorPicture.value = null
+        const dinoName = dinosaur.value?.name
+        console.log(dinoName)
+
+        dinoPicture.value = await fetchOneDinosaurPicture(dinoName)
+        const imgSrc = dinoPicture.value.imageSrc
+        console.log(imgSrc)
+
+    } catch (err) {
+        errorPicture.value = "Image impossible à charger"
+        console.error(err.message)
+    } finally {
+        loadingPicture.value = false
     }
 })
 </script>
@@ -46,8 +69,11 @@ onMounted(async () => {
                 <p v-if="dinosaur.lifeHabit"><strong>Habitude de vie : </strong>{{ dinosaur.lifeHabit }}</p>
             </article>
 
-            <article class="hero-right" v-if="dinosaur.imageUrl">
-                <img :src="dinosaur.imageUrl" alt="Illustration de dinosaure" />
+            <article class="hero-right" v-if="dinoPicture?.imageSrc">
+                <img :src="dinoPicture.imageSrc" alt="fossiles" />
+            </article>
+            <article class="hero-right" v-else>
+                <img src="@/assets/images/allosaurus_fossil.jpg" alt="Illustration de dinosaure" />
             </article>
         </section>
 

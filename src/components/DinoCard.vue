@@ -1,18 +1,53 @@
 <script setup>
+import { ref, watch } from 'vue';
 import ButtonPill from './ButtonPill.vue';
+import { fetchOneDinosaurPicture } from '@/services/wikipediaService.js';
 
-defineProps({
+const props = defineProps({
   dinosaur: {
     type: Object,
     required: true
   }
 })
+
+const dinoPicture = ref(null)
+const loadingPicture = ref(true)
+const errorPicture = ref(null)
+
+watch(
+  () => props.dinosaur,
+  async (newDino) => {
+    if (!newDino?.name) {
+      dinoPicture.value = null
+      errorPicture.value = null
+      loadingPicture.value = false
+      return
+    }
+
+    loadingPicture.value = true
+    errorPicture.value = null
+
+    try {
+      dinoPicture.value = await fetchOneDinosaurPicture(newDino.name)
+    } catch (err) {
+      errorPicture.value = "Image impossible à charger"
+      dinoPicture.value = null
+      console.error(err.message)
+    } finally {
+      loadingPicture.value = false
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
   <article class="dino-card">
-    <div class="card-media">
-      <img src="https://picsum.photos/id/296/400/300" alt="Squelette ou environnement de dinosaure" />
+    <div class="card-media" v-if="dinoPicture?.imageSrc">
+      <img :src="dinoPicture.imageSrc" :alt="`Illustration de ${dinosaur.name}`" />
+    </div>
+    <div class="card-media" v-else>
+      <img src="@/assets/images/allosaurus_fossil.jpg" alt="Squelette ou environnement de dinosaure" />
     </div>
 
     <header class="card-title">
@@ -68,7 +103,7 @@ defineProps({
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: scale-down;
       display: block;
     }
   }

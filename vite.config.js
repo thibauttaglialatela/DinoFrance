@@ -27,6 +27,11 @@ export default defineConfig({
         target: 'https://paleobiodb.org',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api-pbdb/, '')
+      },
+      '/api-wikipedia': {
+        target: 'https://en.wikipedia.org',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api-wikipedia/, '')
       }
     }
   }
