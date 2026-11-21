@@ -74,7 +74,6 @@ export async function fetchFrenchDinosaurs(period = 'Cretaceous') {
                     scientificName: `${item.idn || item.tna} (${item.aut || ''})`.trim(),
                     period: formatGeologicalAge(item.eag, item.lag),
                     habitat: item.env,
-                    imageUrl: 'https://picsum.photos/id/296/400/300',
                     diet: item.jdt || item.jdtb || 'inconnu',
                 })
             }
@@ -118,7 +117,6 @@ export async function fetchOneDinosaur(dinoId) {
             period: formatGeologicalAge(arrayData[0].eag, arrayData[0].lag),
             diet: arrayData[0].jdt,
             lifeHabit: arrayData[0].jlh || '',
-            imageUrl: 'https://picsum.photos/id/296/400/300',
             taxonEnv: arrayData[0].jev || '',
             motility: arrayData[0].jmo || '',
             lifeHabit: arrayData[0].jlh || '',
